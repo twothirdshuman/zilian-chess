@@ -556,4 +556,19 @@ mod tests {
         assert_eq!(game.board().get_piece_file_rank(4, 0).unwrap().piece_type(), PieceType::Knight); // Knight
         assert!(!game.board().get_piece_file_rank(4, 0).unwrap().is_white()); // Same color
     }
+
+    #[test]
+    fn illegal_promotion() {
+        let mut game = ChessGame::new_standard_game();
+
+        game.make_move_notation("g1", "h3").unwrap();
+        game.make_move_notation("e7", "e5").unwrap();
+        let res = game.make_promotion_move(Some(Square::new_square_from_notation_str("h3").unwrap()), Some(Square::new_square_from_notation_str("g5").unwrap()), PieceType::Queen);
+
+        match res {
+            Ok(()) => panic!("THIS MOVE NOT OKAY"),
+            Err(_) => ()
+        };
+
+    }
 }
